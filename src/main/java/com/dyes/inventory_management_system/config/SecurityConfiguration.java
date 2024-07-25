@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -18,6 +19,7 @@ import java.util.List;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration {
 
     private final AuthenticationProvider authenticationProvider;
@@ -37,6 +39,8 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(auth ->auth
                         .requestMatchers("/auth/**")
                         .permitAll()
+                        .requestMatchers("/api/roles/**").hasAuthority("ADMIN")
+                        .requestMatchers("/api/users/all").hasAuthority("ADMIN")
                         .anyRequest()
                         .authenticated())
                 .sessionManagement(sess -> sess

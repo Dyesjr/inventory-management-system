@@ -1,5 +1,6 @@
 package com.dyes.inventory_management_system.config;
 
+import com.dyes.inventory_management_system.exceptions.ProductNotFoundException;
 import com.dyes.inventory_management_system.repositories.UserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,7 +25,7 @@ public class ApplicationConfiguration {
     @Bean
     UserDetailsService userDetailsService() {
         return username -> (UserDetails) userRepository.findByEmail(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+                .orElseThrow(() -> new ProductNotFoundException("User not found"));
     }
 
     @Bean

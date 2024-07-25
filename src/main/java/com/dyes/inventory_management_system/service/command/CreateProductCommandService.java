@@ -8,17 +8,17 @@ import org.springframework.stereotype.Service;
 @Service
 public class CreateProductCommandService {
 
-    private static ProductRepository productRepository;
+    private final ProductRepository productRepository;
 
     @Autowired
     public CreateProductCommandService(ProductRepository productRepository) {
         this.productRepository = productRepository;
     }
 
-    public static Product execute(CreateProductCommand command) {
+    public Product execute(CreateProductCommand command) {
         Product product = new Product();
-        product.setName(command.getProductName());
-        product.setProductDescription(command.getDescription());
+        product.setProductName(command.getProductName());
+        product.setProductDescription(command.getProductDescription());
         product.setQuantity(command.getQuantity());
         product.setPrice(command.getPrice());
 

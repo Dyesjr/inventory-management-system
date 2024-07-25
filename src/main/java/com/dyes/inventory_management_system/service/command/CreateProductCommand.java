@@ -10,7 +10,9 @@ import lombok.NoArgsConstructor;
 public class CreateProductCommand {
 
     private String productName;
-    private String description;
+    private String productDescription;
     private int quantity;
     private double price;
 }
+
+

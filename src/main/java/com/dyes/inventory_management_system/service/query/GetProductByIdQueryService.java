@@ -18,6 +18,6 @@ public class GetProductByIdQueryService {
 
     public Product execute(GetProductByIdQuery query) {
         return productRepository.findById(query.getProductId())
-                .orElseThrow(() -> new ProductNotFoundException("Product not found"));
+                .orElseThrow(() -> new ProductNotFoundException("Product not found " + query.getProductId() ));
     }
 }

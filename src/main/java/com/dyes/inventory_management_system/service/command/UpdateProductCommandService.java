@@ -1,5 +1,6 @@
 package com.dyes.inventory_management_system.service.command;
 
+import com.dyes.inventory_management_system.exceptions.ProductNotFoundException;
 import com.dyes.inventory_management_system.model.Product;
 import com.dyes.inventory_management_system.repositories.ProductRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -17,9 +18,9 @@ public class UpdateProductCommandService {
 
     public Product execute(UpdateProductCommand command) {
         Product existingProduct = productRepository.findById(command.getProductId())
-                .orElseThrow(()-> new EntityNotFoundException("Product not found"));
+                .orElseThrow(()-> new ProductNotFoundException("Product not found " + command.getProductId()));
 
-        existingProduct.setName(command.getProductName());
+        existingProduct.setProductName(command.getProductName());
         existingProduct.setProductDescription(command.getProductDescription());
         existingProduct.setQuantity(command.getProductQuantity());
         existingProduct.setPrice(command.getProductPrice());

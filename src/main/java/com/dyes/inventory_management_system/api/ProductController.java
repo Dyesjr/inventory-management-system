@@ -5,7 +5,9 @@ import com.dyes.inventory_management_system.service.command.*;
 import com.dyes.inventory_management_system.service.query.GetAllProductsQueryService;
 import com.dyes.inventory_management_system.service.query.GetProductByIdQuery;
 import com.dyes.inventory_management_system.service.query.GetProductByIdQueryService;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,33 +38,40 @@ public class ProductController {
 
     @PostMapping
     public ResponseEntity<Product> createProduct(@RequestBody CreateProductCommand createProductCommand) {
-        return ResponseEntity.ok(CreateProductCommandService.execute(createProductCommand));
+        Product createdProduct = createProductCommandService.execute(createProductCommand);
+//        return ResponseEntity.ok(createdProduct);
+        System.out.println("Created Product: " + createdProduct);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdProduct);
+
     }
 
-    @PostMapping("/{id}")
-    public ResponseEntity<Product> updateProduct(@PathVariable Long productId,
-                                                 @RequestBody UpdateProductCommand updateProductCommand, @PathVariable String id) {
-        updateProductCommand.setProductId(productId);
-        return ResponseEntity.ok(updateProductCommandService.execute(updateProductCommand));
+    @PutMapping("/{id}")
+    public ResponseEntity<Product> updateProduct(@PathVariable Long id,
+                                                 @RequestBody UpdateProductCommand updateProductCommand) {
+        updateProductCommand.setProductId(id);
+        Product updatedProduct = updateProductCommandService.execute(updateProductCommand);
+        return ResponseEntity.ok(updatedProduct);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Product> deleteProduct(@PathVariable Long productId) {
-        DeleteProductCommand command = new DeleteProductCommand();
-        command.setProductId(productId);
+    public ResponseEntity<Product> deleteProduct(@PathVariable Long id) {
+        DeleteProductCommand command = new DeleteProductCommand(id);
+
         deleteProductCommandService.execute(command);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping
     public ResponseEntity<List<Product>> getAllProducts() {
-        return ResponseEntity.ok(getAllProductsQueryService.getAllProducts());
+        List<Product> products = getAllProductsQueryService.getAllProducts();
+        return ResponseEntity.ok(products);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Product> getProductById(@PathVariable Long productId) {
-        GetProductByIdQuery query = new GetProductByIdQuery();
-        query.setProductId(productId);
-        return ResponseEntity.ok(getProductByIdQueryService.execute(query));
+    public ResponseEntity<Product> getProductById(@PathVariable Long id) {
+        GetProductByIdQuery query = new GetProductByIdQuery(id);
+        Product product = getProductByIdQueryService.execute(query);
+
+        return ResponseEntity.ok(product);
     }
 }

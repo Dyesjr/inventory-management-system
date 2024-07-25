@@ -17,7 +17,10 @@ public class DeleteProductCommandService {
     }
 
     public void execute(DeleteProductCommand command) {
-        Product product = productRepository.findById(command.getProductId())
-                .orElseThrow(()-> new ProductNotFoundException("Product not found"));
+        if(!productRepository.existsById(command.getProductId())){
+            throw new ProductNotFoundException("Product not found with id " + command.getProductId());
+        }
+
+        productRepository.deleteById(command.getProductId());
     }
 }
