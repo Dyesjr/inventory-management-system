@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -41,6 +42,7 @@ public class SecurityConfiguration {
                         .permitAll()
                         .requestMatchers("/api/roles/**").hasAuthority("ADMIN")
                         .requestMatchers("/api/users/all").hasAuthority("ADMIN")
+                        .requestMatchers("/v2/api-docs", "/swagger-resources/**", "/swagger-ui/**", "/webjars/**").permitAll()
                         .anyRequest()
                         .authenticated())
                 .sessionManagement(sess -> sess
@@ -63,4 +65,6 @@ public class SecurityConfiguration {
 
         return source;
     }
+
+
 }
