@@ -20,13 +20,9 @@ public class GetAllSuppliersQueryService {
         this.supplierRepository = supplierRepository;
     }
 
-//    public List<Supplier> execute(GetAllSuppliersQuery query){
-//        return supplierRepository.findAll();
-//    }
 
     public List<SupplierDTO> execute() {
         List<Supplier> suppliers = supplierRepository.findAll();
-        // Convert List<Supplier> to List<SupplierDTO>
         return suppliers.stream()
                 .map(supplier -> new SupplierDTO(
                         supplier.getSupplierId(),

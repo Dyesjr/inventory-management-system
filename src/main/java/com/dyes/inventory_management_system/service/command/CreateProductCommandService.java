@@ -28,16 +28,13 @@ public class CreateProductCommandService {
 
         logger.info("Processing create product command: {}", command);
         try {
-//            Supplier supplier = supplierRepository.findBySupplierName(command.getSupplierName())
-//                    .orElseThrow(() -> new ProductNotFoundException("Supplier not found with name " + command.getSupplierName()));
-//            logger.info("Found supplier: {}", supplier);
+
 
             Product product = new Product();
             product.setProductName(command.getProductName());
             product.setProductDescription(command.getProductDescription());
             product.setQuantity(command.getQuantity());
             product.setPrice(command.getPrice());
-//            product.setSupplier(supplier);
 
             if (command.getSupplierName() != null && !command.getSupplierName().isEmpty()) {
                 Supplier supplier = supplierRepository.findBySupplierName(command.getSupplierName())
@@ -54,7 +51,7 @@ public class CreateProductCommandService {
             return savedProduct;
         } catch (Exception e) {
             logger.error("Error occurred while creating product", e);
-            throw e;  // rethrow the exception for the controller to handle
+            throw e;
         }
     }
 }

@@ -11,6 +11,7 @@ public class UpdateProductCommand {
     private Long productId;
     private String productName;
     private String productDescription;
-    private double productPrice;
-    private int productQuantity;
+    private Double productPrice;
+    private Integer productQuantity;
+    private String supplierName;
 }

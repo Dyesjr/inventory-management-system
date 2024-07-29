@@ -11,6 +11,7 @@ public class SupplierDTO {
     private Long supplierId;
     private String supplierName;
     private String contactNumber;
-    private String productName;
     private String supplierAddress;
+    private String productName;
+
 }
