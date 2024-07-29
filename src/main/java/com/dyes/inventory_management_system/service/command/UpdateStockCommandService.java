@@ -35,10 +35,6 @@ public class UpdateStockCommandService {
         product.setQuantity(product.getQuantity() - oldQuantity + command.getQuantity());
         productRepository.save(product);
 
-//        stock.setProductId(command.getProductId());
-//        stock.setQuantity(command.getQuantity());
-//
-//        return stockRepository.save(stock);
 
         return updatedStock;
     }

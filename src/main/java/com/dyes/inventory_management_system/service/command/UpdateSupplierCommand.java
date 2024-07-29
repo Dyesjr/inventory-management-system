@@ -5,15 +5,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class CreateProductCommand {
-
-    private String productName;
-    private String productDescription;
-    private int quantity;
-    private double price;
+@NoArgsConstructor
+public class UpdateSupplierCommand {
+    private Long supplierId;
     private String supplierName;
+    private String contactNumber;
+    private String supplierAddress;
+
+    private Long productId;
 }
-
-

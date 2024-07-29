@@ -1,10 +1,12 @@
 package com.dyes.inventory_management_system.api;
 
+import com.dyes.inventory_management_system.dto.ProductDTO;
 import com.dyes.inventory_management_system.model.Product;
 import com.dyes.inventory_management_system.service.command.*;
 import com.dyes.inventory_management_system.service.query.GetAllProductsQueryService;
 import com.dyes.inventory_management_system.service.query.GetProductByIdQuery;
 import com.dyes.inventory_management_system.service.query.GetProductByIdQueryService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,6 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/products")
+@Slf4j
 public class ProductController {
 
     private final CreateProductCommandService createProductCommandService;
@@ -38,10 +41,15 @@ public class ProductController {
 
     @PostMapping
     public ResponseEntity<Product> createProduct(@RequestBody CreateProductCommand createProductCommand) {
-        Product createdProduct = createProductCommandService.execute(createProductCommand);
-//        return ResponseEntity.ok(createdProduct);
-        System.out.println("Created Product: " + createdProduct);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdProduct);
+        log.info("Received request to create product: {}", createProductCommand);
+        try {
+            Product createdProduct = createProductCommandService.execute(createProductCommand);
+            log.info("Product created successfully: {}", createdProduct);
+            return ResponseEntity.status(HttpStatus.CREATED).body(createdProduct);
+        } catch (Exception e) {
+            log.error("Error occurred while creating product", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
 
     }
 
@@ -62,8 +70,8 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Product>> getAllProducts() {
-        List<Product> products = getAllProductsQueryService.getAllProducts();
+    public ResponseEntity<List<ProductDTO>> getAllProducts() {
+        List<ProductDTO> products = getAllProductsQueryService.getAllProducts();
         return ResponseEntity.ok(products);
     }
 

@@ -35,14 +35,9 @@ public class CreateStockCommandService {
             productRepository.save(product);
         });
 
-//        Product product = productRepository.findById(command.getProductId())
-//                .orElseThrow(()-> new ProductNotFoundException("Product not found"));
-//
-//        product.setQuantity(product.getQuantity() + command.getQuantity());
-//        productRepository.save(product);
+
 
         return savedStock;
 
-//        return stockRepository.save(stock);
     }
 }
